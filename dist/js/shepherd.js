@@ -645,7 +645,14 @@ var Tour = (function (_Evented2) {
     key: 'back',
     value: function back() {
       var index = this.steps.indexOf(this.currentStep);
-      this.show(index - 1, false);
+
+      if (index === 0) {
+        this.hide(index);
+        this.trigger('cancel');
+        this.done();
+      } else {
+        this.show(index - 1, false);
+      }
     }
   }, {
     key: 'cancel',
@@ -722,6 +729,9 @@ var Tour = (function (_Evented2) {
           this.currentStep = next;
           next.show();
         }
+      } else {
+        this.trigger('complete');
+        this.done();
       }
     }
   }, {
